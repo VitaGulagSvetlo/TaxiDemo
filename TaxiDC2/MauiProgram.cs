@@ -21,7 +21,7 @@ namespace TaxiDC2
 				.UseMauiCommunityToolkit()
 				.ConfigureSyncfusionCore()
 				.ConfigureFonts(FAs =>
-				{
+				{ 
 					FAs.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 					FAs.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 
