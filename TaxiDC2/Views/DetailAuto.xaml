@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="TaxiDC2.DetailAuto"
+             Title="Detail Auta"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             BackgroundColor="{StaticResource GridBG}"
+             x:DataType="vm:CarDetailViewModel">
+
+    <Grid BackgroundColor="{StaticResource GridBG}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+
+
+        <!-- Content Section -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Spacing="10" Padding="10">
+
+                <!-- Car Type -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <StackLayout Spacing="10">
+                        <Label Text="Vůz:" Style="{StaticResource CustomLblO}" />
+                        <Entry Placeholder="Škoda" Text="{Binding Car.CarType}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Color -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <StackLayout Spacing="10">
+                        <Label Text="Barva:" Style="{StaticResource CustomLblO}"  />
+                        <Entry Placeholder="Černá" Text="{Binding Car.Color}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- License Plate -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <StackLayout Spacing="10">
+                        <Label Text="SPZ:" Style="{StaticResource CustomLblO}"  />
+                        <Entry  Placeholder="1AX 1234" Text="{Binding Car.Rz}" PlaceholderColor="{StaticResource NRph}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Active Switch -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="Aktivní:" Style="{StaticResource CustomLblO}" VerticalTextAlignment="Center" />
+                        <Switch IsToggled="{Binding Car.Active}" HorizontalOptions="Start" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Save Button -->
+                <Button Text="ULOŽIT ZMĚNY"
+                        BackgroundColor="{StaticResource CustomOrangeBG}"
+                        TextColor="Black"
+                        FontSize="16"
+                        VerticalOptions="EndAndExpand"
+                        CornerRadius="10"
+                        Command="{Binding SaveDataCommand}" />
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

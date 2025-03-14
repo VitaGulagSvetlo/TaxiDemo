@@ -1,0 +1,113 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             x:Class="TaxiDC2.DetailZakaznik"
+             Title="Detail Zákazníka"
+             x:DataType="vm:CustomerDetailViewModel"
+             BackgroundColor="{StaticResource GridBG}">
+
+    <Grid BackgroundColor="{StaticResource GridBG}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- Obsah -->
+            <RowDefinition Height="Auto" />
+            <!-- Tlačítko dole -->
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0" Padding="10">
+            <StackLayout Spacing="10" HorizontalOptions="FillAndExpand">
+
+                <Frame Style="{StaticResource CustomFrame}">
+                    <StackLayout Spacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Jméno:" Style="{StaticResource CustomLblO}" />
+                            <Entry Text="{Binding Customer.Name}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="Telefonní číslo:" Style="{StaticResource CustomLblO}" />
+                            <Entry Text="{Binding Customer.PhoneNumber}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="Poznámka:" Style="{StaticResource CustomLblO}" />
+                            <ScrollView>
+                                <Editor Text="{Binding Customer.Memo}"
+                                        AutoSize="TextChanges"
+                                        MinimumHeightRequest="100"/>
+                            </ScrollView>
+                        </VerticalStackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Preferences -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <Grid ColumnSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="Nevozit:" Style="{StaticResource CustomLblO}" VerticalTextAlignment="Center" />
+                        <Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding Customer.Rejected}" HorizontalOptions="End" />
+
+                        <!-- Řádek s hodnocením -->
+                        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" VerticalOptions="Center" Text="Hodnocení:" Style="{StaticResource CustomLblO}" HorizontalOptions="Start" />
+
+                            <inputs:SfRating Grid.Column="1" Value="{Binding Customer.VIP2}" HorizontalOptions="End" ItemSize="25" Margin="2,5">
+                                <inputs:SfRating.RatingSettings>
+                                    <inputs:RatingSettings RatedStroke="Transparent" RatedFill="{StaticResource Oranzova}" UnratedFill="{StaticResource GradientGray}" />
+                                </inputs:SfRating.RatingSettings>
+                            </inputs:SfRating>
+                        </Grid>
+                    </Grid>
+                </Frame>
+
+                <!-- Last Trip Info -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    
+
+
+                    <StackLayout Spacing="10">
+                        <Label  Text="Poslední jízda" FontSize="16" Style="{StaticResource CustomLblO}" />
+                        <HorizontalStackLayout Spacing="5">
+                            <Image Source="{FontImageSource Glyph={StaticResource start}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                            <Label Text="{Binding Customer.LastAddressBoarding}" FontSize="16" TextColor="{StaticResource Bila}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="5">
+                            <Image Source="{FontImageSource Glyph={StaticResource finish}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                            <Label Text="{Binding Customer.LastAddressExit}" FontSize="16" TextColor="{StaticResource Bila}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="5">
+                            <Image Source="{FontImageSource Glyph={StaticResource time}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                            <Label Text="{Binding Customer.Time}" FontSize="16" TextColor="{StaticResource Bila}" />
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                </Frame>
+
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Save Button -->
+        <Grid Grid.Row="1" Padding="15">
+            <Button Text="ULOŽIT ZMĚNY"
+                    BackgroundColor="{StaticResource CustomOrangeBG}"
+                    TextColor="{StaticResource Cerna}"
+                    FontSize="16"
+                    CornerRadius="10"
+                    Command="{Binding SaveDataCommand}"
+                    HeightRequest="50"
+                    VerticalOptions="End" />
+        </Grid>
+
+    </Grid>
+</ContentPage>

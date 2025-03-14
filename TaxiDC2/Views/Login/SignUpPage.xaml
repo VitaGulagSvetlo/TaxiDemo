@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             xmlns:converters="using:TaxiDC2.Converters"
+             x:DataType="vm:SignUpViewModel"
+             x:Class="TaxiDC2.Components.Login.SignUpPage"
+             Title="Login"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource GridBG}"
+             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:FirstErrorConverter x:Key="FirstErrorConverter" />
+
+            <Style x:Key="ErrorLabel" TargetType="Label" >
+                <Setter Property="TextColor" Value="Red"></Setter>
+                <Setter Property="FontSize" Value="10"></Setter>
+                <Setter Property="Margin" Value="10,0"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+
+        <Image Source="taxi.png" WidthRequest="100" HeightRequest="100"  VerticalOptions="Center" Margin="0,10,0,0"/>
+        <Label 
+            Text="Registrujte se"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            FontSize="14"
+            TextColor="{StaticResource Oranzova}"
+            Margin="10"/>
+        <!-- Driver Details -->
+        <Frame Style="{StaticResource CustomFrame}" Margin="20,5">
+            <StackLayout Spacing="10">
+                <VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Jméno:" Style="{StaticResource CustomLblO}" />
+                        <Label Text="{Binding [FirstName], Converter={StaticResource FirstErrorConverter}}" Style="{StaticResource ErrorLabel}"/>
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding FirstName,Mode=TwoWay}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Příjmení:" Style="{StaticResource CustomLblO}" />
+                        <Label Text="{Binding [LastName], Converter={StaticResource FirstErrorConverter}}" Style="{StaticResource ErrorLabel}" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding LastName,Mode=TwoWay}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Email:" Style="{StaticResource CustomLblO}" />
+                        <Label Text="{Binding [Email], Converter={StaticResource FirstErrorConverter}}" Style="{StaticResource ErrorLabel}" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding Email,Mode=TwoWay}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Telefonní číslo:" Style="{StaticResource CustomLblO}" />
+                        <Label Text="{Binding [PhoneNumber], Converter={StaticResource FirstErrorConverter}}" Style="{StaticResource ErrorLabel}" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding PhoneNumber,Mode=TwoWay}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Heslo:" Style="{StaticResource CustomLblO}" />
+                        <Label Text="{Binding [Password1], Converter={StaticResource FirstErrorConverter}}" Style="{StaticResource ErrorLabel}" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding Password1,Mode=TwoWay}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand"  IsPassword="True"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <Label Text="Heslo znovu:" Style="{StaticResource CustomLblO}" />
+                        <Label Text="{Binding [Password2], Converter={StaticResource FirstErrorConverter}}" Style="{StaticResource ErrorLabel}" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding Password2,Mode=TwoWay}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand"  IsPassword="True"/>
+                </VerticalStackLayout>
+            </StackLayout>
+        </Frame>
+        <Button Command="{Binding SignUpCommand}" Style="{StaticResource CustomSettingsBtn}" Text="Registrovat se" Margin="0,10"></Button>
+        <ActivityIndicator IsRunning="{Binding IsBusy}" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center"></ActivityIndicator>
+        <Label Text="{Binding Message}" IsVisible="{Binding IsMessageVisible}" TextColor="Red" HorizontalTextAlignment="Center" />
+        <!--<Button Command="{Binding SignInGoogleCommand}" HorizontalOptions="Center" Text="G"></Button>-->
+
+    </VerticalStackLayout>
+</ContentPage>

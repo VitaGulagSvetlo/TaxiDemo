@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:TaxiDC2.Converters"
+             x:Class="TaxiDC2.Components.LoadingPage"
+             Title="TAXI DC loading"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             x:DataType="vm:LoadingPageViewModel"
+             BackgroundColor="{StaticResource GridBG}"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
+             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <Style x:Key="Link" TargetType="Label" >
+                <Setter Property="TextColor" Value="{StaticResource C14Color}"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
+                <Setter Property="FontAttributes" Value="Italic"></Setter>
+                <Setter Property="Margin" Value="5"></Setter>
+                <Setter Property="TextDecorations" Value="Underline" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout>
+        <Image Source="taxi.png" WidthRequest="200" HeightRequest="300"  VerticalOptions="Center"/>
+        
+        <ActivityIndicator IsRunning="{Binding IsBusy}" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center"></ActivityIndicator>
+
+        <Label Text="{Binding Message}" IsVisible="{Binding IsMessageVisible}" TextColor="Red" HorizontalTextAlignment="Center"  Margin="5,20"/>
+
+        <Label Style="{StaticResource Link}" Text="Zde se můžete pokusit znovu přihlásit" IsVisible="{Binding IsMessageVisible}">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SignInCommand}" ></TapGestureRecognizer>
+            </Label.GestureRecognizers>
+        </Label>
+
+    </VerticalStackLayout>
+</ContentPage>

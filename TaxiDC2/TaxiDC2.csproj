@@ -1,0 +1,242 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net9.0-ios;net9.0-android35.0</TargetFrameworks>
+		<!--<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>-->
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifer>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- ex. <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>TaxiDC2</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>TaxiDC2</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.advisorsoft.taxidc2</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.0</SupportedOSPlatformVersion>
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>-->
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">31.0</SupportedOSPlatformVersion>
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>-->
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+		<!-- Splash Screen -->
+		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />-->
+		<MauiSplashScreen Include="Resources\Images\taxi.png" Color="#1E1E1E" BaseSize="200,200" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<!--<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />-->
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<!--<ItemGroup>
+		<MauiGoogleServicesJson Include="Platforms\Android\google-services.json" />
+	</ItemGroup>-->
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="11.1.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
+		<PackageReference Include="Fody" Version="6.9.2">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.40" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.40" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.2" />
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<!-- pdf -->
+	
+	 <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Plugin.FirebasePushNotification" Version="3.4.35" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="Syncfusion.Maui.Datagrid" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.TreeView" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.GridCommon" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Maps" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Inputs" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.DataForm" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.DataSource" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.ListView" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Picker" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Popup" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Buttons" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Cards" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Core" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Expander" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.TabView" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.PullToRefresh" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.ProgressBar" Version="27.1.51" />
+    <PackageReference Include="Syncfusion.Maui.Sliders" Version="27.1.51" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.0" />
+    <PackageReference Include="Plugin.Maui.Biometric" Version="0.0.2" />
+
+	 </ItemGroup>
+	
+	 <ItemGroup><!--
+	 <ProjectReference Include="..\Advisor.TaxiDC2.Libs\TaxiDC2.Libs.csproj" />
+	   <ProjectReference Include="..\TaxuDC2.Models\TaxiDC2.Models.csproj" />-->
+	 
+	   <PackageReference Include="TaxiDC2.Libs" Version="1.3.4" />
+	 </ItemGroup>
+	
+	 <ItemGroup>
+	   <Compile Update="Views\DetailZakaznik.xaml.cs">
+	     <DependentUpon>DetailZakaznik.xaml</DependentUpon>
+	   </Compile>
+	   <Compile Update="Views\DetailAuto.xaml.cs">
+	     <DependentUpon>DetailAuto.xaml</DependentUpon>
+	   </Compile>
+	   <Compile Update="Views\Login\SignUpPage.xaml.cs">
+	     <DependentUpon>SignUpPage.xaml</DependentUpon>
+	   </Compile>
+	   <Compile Update="Views\Login\SignInPage.xaml.cs">
+	     <DependentUpon>SignInPage.xaml</DependentUpon>
+	   </Compile>
+	   <Compile Update="Views\SeznamRidicu.xaml.cs">
+	     <DependentUpon>SeznamRidicu.xaml</DependentUpon>
+	   </Compile>
+	   <Compile Update="Views\SeznamAut.xaml.cs">
+	     <DependentUpon>SeznamAut.xaml</DependentUpon>
+	   </Compile>
+	   <Compile Update="Views\SeznamZakazniku.xaml.cs">
+	     <DependentUpon>SeznamZakazniku.xaml</DependentUpon>
+	   </Compile>
+	   <Compile Update="Views\SeznamJizd.xaml.cs">
+	     <DependentUpon>SeznamJizd.xaml</DependentUpon>
+	   </Compile>
+		 <Compile Update="Views\NovaJizda.xaml.cs">
+			 <DependentUpon>NovaJizda.xaml</DependentUpon>
+		 </Compile>
+		 <Compile Update="Platforms\iOS\CallLogService.cs">
+		   <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+		 </Compile>
+		 <Compile Update="Platforms\iOS\PlaySoundService.cs">
+		   <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+		 </Compile>
+	 </ItemGroup>
+	
+	 <ItemGroup>
+	   <MauiXaml Update="Views\AboutPage.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\DetailZakaznik.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\Controls\FlyoutHeaderControl.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\Login\LoadingPage.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\Login\SignUpPage.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\Login\SignInPage.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\MainPage.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\SmsSendView.xaml">
+		   <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="DetailZakaznik.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\DetailAuto.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\SeznamRidicu.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\SeznamAut.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\SeznamZakazniku.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\DetailJizda.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\DetailRidic.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Resources\Styles\Colors.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	  
+	   <MauiXaml Update="Views\SeznamJizd.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Views\NovaJizda.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Resources\Styles\Icons.xaml">
+		   <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	   <MauiXaml Update="Resources\Styles\Styles.xaml">
+	     <Generator>MSBuild:Compile</Generator>
+	   </MauiXaml>
+	 </ItemGroup>
+	
+	 <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android35.0'">
+	   <PackageReference Include="Xamarin.Firebase.Common">
+	     <Version>121.0.0.4</Version>
+	   </PackageReference>
+	   <PackageReference Include="Xamarin.Firebase.Messaging">
+	     <Version>124.1.0.1</Version>
+	   </PackageReference>
+	   <PackageReference Include="Xamarin.GooglePlayServices.Base">
+	     <Version>118.5.0.4</Version>
+	   </PackageReference>
+	 </ItemGroup>
+	
+	 <ItemGroup>
+	   <Folder Include="Doc\" />
+	 </ItemGroup>
+	<!-- Build Properties must be defined within these property groups to ensure successful publishing
+       to the Mac App Store. See: https://aka.ms/maui-publish-app-store#define-build-properties-in-your-project-file -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-maccatalyst')) and '$(Configuration)' == 'Debug'">
+    <CodesignEntitlements>Platforms/MacCatalyst/Entitlements.Debug.plist</CodesignEntitlements>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework.Contains('-maccatalyst')) and '$(Configuration)' == 'Release'">
+    <CodesignEntitlements>Platforms/MacCatalyst/Entitlements.Release.plist</CodesignEntitlements>
+    <UseHardenedRuntime>true</UseHardenedRuntime>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:syncfusionList="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             xmlns:models="clr-namespace:TaxiDC2.Models;assembly=TaxiDC2.Models"
+             x:Class="TaxiDC2.SeznamZakazniku"
+             x:DataType="vm:CustomerListViewModel"
+             BackgroundColor="{StaticResource GridBG}"
+             Title="Seznam Zákazníků">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Nový" Command="{Binding AddItemCommand}" 
+                     IconImageSource="{FontImageSource Glyph={StaticResource add}, FontFamily=FAPro, Size=24, Color={StaticResource Oranzova}}"/>
+    </ContentPage.ToolbarItems>
+
+    <RefreshView Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <Grid BackgroundColor="{StaticResource GridBG}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Search Bar Strip -->
+            <Grid Padding="5" Grid.Row="0">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                        <GradientStop Color="{StaticResource GradientGray}" Offset="0.0" />
+                        <GradientStop Color="{StaticResource GradientOrange}" Offset="1.1" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <SearchBar Placeholder="Hledat zákazníka..."
+                           Text="{Binding SearchText, Mode=TwoWay}"
+                           TextColor="{StaticResource TCwhite}"
+                           PlaceholderColor="{StaticResource Bila}" 
+                           CancelButtonColor="{StaticResource Bila}" 
+                           SearchCommand="{Binding SearchCommand}"/>
+            </Grid>
+
+            <!-- List -->
+            <syncfusionList:SfListView x:Name="listZakaznici" Grid.Row="1"  ItemSize="100" ItemSpacing="5" ItemsSource="{Binding Items}">
+                <syncfusionList:SfListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Customer">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItem IconImageSource="{FontImageSource Glyph={StaticResource info}, FontFamily=FAPro, Size=24, Color={StaticResource Bila}}"
+                                               BackgroundColor="{StaticResource CustomOrangeBG}"  
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CustomerListViewModel}}, Path=ItemSelectedCommand}" CommandParameter="{Binding IdCustomer}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Frame Style="{StaticResource CustomFrame}">
+                                <Grid ColumnSpacing="15">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Telefonní číslo:" Style="{StaticResource FS-16}" FontAttributes="Bold" TextColor="{StaticResource Oranzova}" VerticalTextAlignment="Center" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding PhoneNumber}" Style="{StaticResource FS-16}" FontAttributes="Bold" TextColor="{StaticResource TCwhite}" VerticalTextAlignment="Center" />
+                                    
+                                    <Label Grid.Row="1" Grid.Column="0" Text="Jméno:" Style="{StaticResource FS-16}" FontAttributes="Bold" TextColor="{StaticResource Oranzova}" VerticalTextAlignment="Center" />
+                                    <Label MaxLines="1" LineBreakMode="TailTruncation" Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Style="{StaticResource FS-16}" FontAttributes="Bold" TextColor="{StaticResource TCwhite}" VerticalTextAlignment="Center" />
+                                    
+                                    <inputs:SfRating HorizontalOptions="Start" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="CustomerRating" IsReadOnly="True" ItemCount="5" Value="3" ItemSize="20">
+                                        <inputs:SfRating.RatingSettings>
+                                            <inputs:RatingSettings RatedFill="{StaticResource CustomOrangeText}" RatedStroke="{StaticResource TP}" />
+                                        </inputs:SfRating.RatingSettings>
+                                    </inputs:SfRating>
+                                    
+                                    <Image Grid.Row="0" Grid.Column="2" HorizontalOptions="End" Source="{FontImageSource Glyph={StaticResource banned}, FontFamily=FAPro, Size=20, Color={StaticResource Cervena}}" 
+                                           IsVisible="{Binding Rejected}"/>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </syncfusionList:SfListView.ItemTemplate>
+            </syncfusionList:SfListView>
+        </Grid>
+    </RefreshView>
+</ContentPage>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <x:String x:Key="user">&#xf007;</x:String>
+    <x:String x:Key="star">&#xf005;</x:String>
+    <x:String x:Key="route">&#xf4d7;</x:String>
+    <x:String x:Key="gear">&#xf013;</x:String>
+    <x:String x:Key="login">&#xf2f6;</x:String>
+    <x:String x:Key="cancel">&#xf057;</x:String>
+    <x:String x:Key="accept">&#xf058;</x:String>
+    <x:String x:Key="time">&#xf017;</x:String>
+    <x:String x:Key="refresh">&#xf021;</x:String>
+    <x:String x:Key="info">&#xf05a;</x:String>
+    <x:String x:Key="phone">&#xf095;</x:String>
+    <x:String x:Key="start">&#xf276;</x:String>
+    <x:String x:Key="finish">&#xf11e;</x:String>
+    <x:String x:Key="calendar">&#xf073;</x:String>
+    <x:String x:Key="banned">&#xf06a;</x:String>
+    <x:String x:Key="search">&#xf002;</x:String>
+    <x:String x:Key="car">&#xf1b9;</x:String>
+    <x:String x:Key="edit">&#xf304;</x:String>
+    <x:String x:Key="list">&#xf03a;</x:String>
+    <x:String x:Key="plus">&#x2b;</x:String>
+    <x:String x:Key="bell">&#xf0f3;</x:String>
+    <x:String x:Key="lightbulb">&#xf0eb;</x:String>
+    <x:String x:Key="power">&#xf011;</x:String>
+    <x:String x:Key="shield">&#xf3ed;</x:String>
+    <x:String x:Key="add">&#xe5c2;</x:String>
+    <x:String x:Key="alert">&#xf071;</x:String>
+</ResourceDictionary>

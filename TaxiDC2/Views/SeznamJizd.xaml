@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusionList="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:sfavatar="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             x:Class="TaxiDC2.SeznamJizd"
+             BackgroundColor="{StaticResource GridBG}"
+             Title="Aktuální jízdy"
+             x:DataType="vm:TripListViewModel"
+             >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Nová" Command="{Binding TripAddCommand}" 
+                     IconImageSource="{FontImageSource Glyph={StaticResource add}, FontFamily=FAPro, Size=24, Color={StaticResource Oranzova}}"
+                     />
+    </ContentPage.ToolbarItems>
+
+    <Grid BackgroundColor="{StaticResource GridBG}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Padding="10">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                    <GradientStop Color="{StaticResource GradientGray}" Offset="0.0" />
+                    <GradientStop Color="{StaticResource GradientOrange}" Offset="1.1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0"
+        Grid.RowSpan="2"
+        Style="{StaticResource Avatar}"
+        Command="{Binding ProfileOpenCommand}"
+        Text="{Binding DriverName}"         
+         TextColor="White"           />
+
+
+
+
+            <!-- Switch and Label -->
+            <Grid Grid.Column="1" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" VerticalOptions="Center" FontSize="16" Text="Skrýt cizí jízdy" Margin="5,0"/>
+                <Switch Grid.Column="1" VerticalOptions="Center"  Toggled="FilterChanged" IsToggled="{Binding ListMode,Mode=TwoWay}"/>
+            </Grid>
+        </Grid>
+        <!-- List -->
+        <RefreshView x:Name="RefreshView" Grid.Row="1" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <syncfusionList:SfListView x:Name="listJizdy" Grid.Row="1" ItemSize="190" ItemsSource="{Binding Items}" ItemSpacing="0">
+
+                <syncfusionList:SfListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:TripListItemViewModel">
+                        <SwipeView >
+                            <!-- Define swipe actions -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Execute">
+
+                                    <SwipeItem  IconImageSource="{FontImageSource Glyph={StaticResource info}, FontFamily=FAPro, Size=24, Color={StaticResource Bila}}"
+                        BackgroundColor="{StaticResource CustomOrangeBG}" Invoked="OnSwipeRightItemInvoked" CommandParameter="{Binding Data.IdTrip }"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <SwipeView.LeftItems>
+                                <SwipeItem 
+                                           IconImageSource="{FontImageSource Glyph={StaticResource cancel}, FontFamily=FAPro, Size=24, Color={StaticResource Bila}}"
+                                           BackgroundColor="{StaticResource Cervena}" Invoked="OnSwipeLeftCancel" CommandParameter="{Binding Data.IdTrip }"/>
+                                <SwipeItem 
+                                           IconImageSource="{FontImageSource Glyph={StaticResource accept}, FontFamily=FAPro, Size=24, Color={StaticResource Bila}}"
+                                    BackgroundColor="{StaticResource Zelena}" Invoked="OnSwipeLeftAccept" CommandParameter="{Binding Data.IdTrip }"/>
+                            </SwipeView.LeftItems>
+
+                            <!-- Item content -->
+                            <Frame CornerRadius="10" Padding="10" HasShadow="False" Margin="10,5" HeightRequest="180" BorderColor="{StaticResource CustomOrange}" BackgroundColor="{StaticResource GradientGray}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="1" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="75" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Left Section (Main Info) -->
+                                    <StackLayout Grid.Row="0" Grid.Column="0" Padding="5">
+                                        <Frame WidthRequest="70" HeightRequest="70" CornerRadius="15" BorderColor="Transparent" BackgroundColor="{Binding TimeColor}">
+                                            <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="Center" IsVisible="{Binding TimeVisible}">
+                                                <Label FontSize="13" TextColor="Black" Text="{Binding MinToDeadLineTxt}" />
+                                                <Label FontSize="13" TextColor="Black" Text="Min" IsVisible="{Binding MinLabelVisible}" />
+                                            </FlexLayout>
+                                        </Frame>
+                                    </StackLayout>
+
+                                    <!-- Main Content -->
+                                    <StackLayout Grid.Row="0" Grid.Column="1" Spacing="0" Padding="0">
+                                        <HorizontalStackLayout HorizontalOptions="Start" Spacing="5">
+                                            <Image Source="{FontImageSource Glyph={StaticResource phone}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                            <Label Text="{Binding Data.Customer.PhoneNumber,FallbackValue=''}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource TCwhite}" VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout HorizontalOptions="Start" Spacing="5">
+                                            <Image Source="{FontImageSource Glyph={StaticResource user}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                            <Label Text="{Binding Data.Customer.Name,FallbackValue=''}" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource TCwhite}" VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout HorizontalOptions="Start" Spacing="5">
+                                            <Image Source="{FontImageSource Glyph={StaticResource calendar}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                            <Label Text="{Binding Data.BoardingTime, StringFormat='{0:yyyy-MM-dd HH:mm}'}" FontAttributes="Bold" Style="{StaticResource FS-16}" TextColor="{StaticResource TCwhite}" VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                    </StackLayout>
+
+                                    <!-- Orange Line -->
+                                    <BoxView Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="2" BackgroundColor="{StaticResource Oranzova}" HorizontalOptions="Fill" Margin="20,0,20,0" />
+
+                                    <!-- Bottom Section (Addresses) -->
+                                    <StackLayout Grid.Row="2" Grid.Column="0" Padding="5">
+                                        <Frame BackgroundColor="{StaticResource GridBG}" CornerRadius="50" Padding="0" WidthRequest="50" HeightRequest="50" BorderColor="Transparent" Margin="0,2">
+                                            <Label Style="{StaticResource FS-14}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding Data.Driver.Inicials,FallbackValue=''}" />
+                                        </Frame>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="2" Grid.Column="1" Padding="5">
+                                        <!-- Boarding Address -->
+                                        <Grid HorizontalOptions="Start">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" 
+                                                   Source="{FontImageSource Glyph={StaticResource start}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}"
+                                                   VerticalOptions="Center" />
+                                            <Label MaxLines="1" 
+                                                   LineBreakMode="TailTruncation"
+                                                    Grid.Column="1" 
+                                                   Text="{Binding Data.AddressBoarding}" 
+                                                   FontAttributes="Bold" 
+                                                   FontSize="16" 
+                                                   TextColor="{StaticResource TCwhite}" 
+                                                   VerticalOptions="Center" 
+                                                   Margin="5,0,0,0"/>
+                                        </Grid>
+                                        <!-- Exit Address -->
+                                        <Grid HorizontalOptions="Start">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" 
+                                                   Source="{FontImageSource Glyph={StaticResource finish}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}"
+                                                   VerticalOptions="Center" />
+                                            <Label MaxLines="1" 
+                                                     LineBreakMode="TailTruncation"
+                                                Grid.Column="1" 
+                                                   Text="{Binding Data.AddressExit}" 
+                                                   FontAttributes="Bold" 
+                                                   FontSize="16" 
+                                                   TextColor="{StaticResource TCwhite}" 
+                                                   VerticalOptions="Center" 
+                                                   Margin="5,0,0,0"/>
+                                        </Grid>
+                                    </StackLayout>
+
+                                    <!-- Right Side -->
+                                    <Frame Padding="10" Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" BackgroundColor="{Binding StateColor}" CornerRadius="10" WidthRequest="75" HeightRequest="150" 
+                                           BorderColor="Transparent">
+                                        <StackLayout VerticalOptions="Center">
+                                            <Image Source="{Binding StateImage}" HeightRequest="50" WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center" />
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </syncfusionList:SfListView.ItemTemplate>
+            </syncfusionList:SfListView>
+        </RefreshView>
+
+        <Button Grid.Row="0"
+        Grid.RowSpan="2"
+        Style="{StaticResource FloatingAdd}"
+        Command="{Binding TripAddCommand}">
+    <Button.ImageSource>
+        <FontImageSource Glyph="{StaticResource plus}"
+                         FontFamily="FAPro"
+                         Size="35"
+                         Color="White"/>
+    </Button.ImageSource>
+</Button>
+    </Grid>
+</ContentPage>

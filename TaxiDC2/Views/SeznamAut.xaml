@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:syncfusionList="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             xmlns:converters="clr-namespace:TaxiDC2.Converters"
+             xmlns:models="clr-namespace:TaxiDC2.Models;assembly=TaxiDC2.Models"
+             x:Class="TaxiDC2.SeznamAut"
+             x:DataType="vm:CarListViewModel"
+             BackgroundColor="{StaticResource GridBG}"
+             Title="Seznam Aut">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Nové" Command="{Binding AddItemCommand}" 
+                     IconImageSource="{FontImageSource Glyph={StaticResource add}, FontFamily=FAPro, Size=24, Color={StaticResource Oranzova}}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <Grid BackgroundColor="{StaticResource GridBG}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+
+            <RowDefinition Height="*" />
+
+        </Grid.RowDefinitions>
+
+        <!-- Content Section -->
+        <RefreshView Grid.Row="1" Command="{Binding LoadDataCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <syncfusionList:SfListView x:Name="listAut" ItemSize="85" ItemSpacing="5" ItemsSource="{Binding Items}" >
+                <syncfusionList:SfListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Car">
+                        <SwipeView>
+                            <!-- swipe -->
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItem  IconImageSource="{FontImageSource Glyph={StaticResource info}, FontFamily=FAPro, Size=24, Color={StaticResource Bila}}"
+                                                BackgroundColor="{StaticResource CustomOrangeBG}" 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CarListViewModel}}, Path=ItemSelectedCommand}" CommandParameter="{Binding IdCar}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <!-- Item content -->
+                            <Frame Style="{StaticResource CustomFrame}">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Ikona v pravém horním rohu -->
+                                    <Image Grid.Row="0" Grid.Column="2"
+                                    Source="{FontImageSource Glyph={StaticResource power}, FontFamily=FAPro, Size=20, Color={Binding Active, Converter={StaticResource BoolToColorConverter}}}" 
+                                    HorizontalOptions="End" VerticalOptions="Start" />
+
+                                    <!-- Typ vozidla -->
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Typ:" 
+                                    Style="{StaticResource FS-16}" FontAttributes="Bold" 
+                                    TextColor="{StaticResource CustomOrangeText}" VerticalTextAlignment="Center"/>
+
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding CarType}" 
+                                    Style="{StaticResource FS-16}" FontAttributes="Bold" 
+                                    TextColor="{StaticResource TCwhite}" VerticalTextAlignment="Center" Margin="10,0,0,0"/>
+
+                                    <!-- Barva -->
+                                    <Label Grid.Row="1" Grid.Column="0" Text="Barva:" 
+                                    Style="{StaticResource FS-16}" FontAttributes="Bold" 
+                                    TextColor="{StaticResource CustomOrangeText}" VerticalTextAlignment="Center"/>
+
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Color}" 
+                                    Style="{StaticResource FS-16}" FontAttributes="Bold" 
+                                    TextColor="{StaticResource TCwhite}" VerticalTextAlignment="Center" Margin="10,0,0,0"/>
+
+                                    <!-- SPZ -->
+                                    <Label Grid.Row="2" Grid.Column="0" Text="SPZ:" 
+                                    Style="{StaticResource FS-16}" FontAttributes="Bold" 
+                                    TextColor="{StaticResource CustomOrangeText}" VerticalTextAlignment="Center"/>
+
+                                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Rz}" 
+                                    Style="{StaticResource FS-16}" FontAttributes="Bold" 
+                                    TextColor="{StaticResource TCwhite}" VerticalTextAlignment="Center" Margin="10,0,0,0"/>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </syncfusionList:SfListView.ItemTemplate>
+            </syncfusionList:SfListView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

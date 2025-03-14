@@ -1,0 +1,111 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             xmlns:models="clr-namespace:TaxiDC2.Models;assembly=TaxiDC2.Models"
+             BackgroundColor="{StaticResource GridBG}"
+             x:Class="TaxiDC2.DetailRidic"
+             x:DataType="vm:DriverDetailViewModel"
+             Title="Řidič">
+
+    <Grid BackgroundColor="{StaticResource GridBG}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header or fixed content -->
+            <RowDefinition Height="*" />
+            <!-- Scrollable content -->
+            <RowDefinition Height="Auto" />
+            <!-- Save button at the bottom -->
+        </Grid.RowDefinitions>
+
+        <!-- Content Section -->
+        <ScrollView Grid.Row="1" Padding="10">
+            <StackLayout Spacing="10" HorizontalOptions="FillAndExpand">
+
+                <!-- Driver Details -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <StackLayout Spacing="10">
+                        <VerticalStackLayout>
+                            <Label Text="Jméno:" Style="{StaticResource CustomLblO}" />
+                            <Entry Text="{Binding Driver.FirstName}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="Příjmení:" Style="{StaticResource CustomLblO}" />
+                            <Entry Text="{Binding Driver.LastName}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="Telefonní číslo:" Style="{StaticResource CustomLblO}" />
+                            <Entry Text="{Binding Driver.PhoneNumber}" FontSize="16" TextColor="{StaticResource Bila}" HorizontalOptions="FillAndExpand" />
+                        </VerticalStackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Preferences -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <Grid ColumnSpacing="10">
+
+                        <!-- Define rows and columns for each switch -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Active Switch -->
+                        <Label Grid.Row="0" Grid.Column="0" Text="Aktivní:" Style="{StaticResource CustomLblO}" VerticalTextAlignment="Center" />
+                        <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding Driver.Active}" HorizontalOptions="End" />
+
+                        <!-- Notification Switch -->
+                        <Label Grid.Row="1" Grid.Column="0" Text="Notifikace zapnuty:" Style="{StaticResource CustomLblO}" VerticalTextAlignment="Center" />
+                        <Switch Grid.Row="1" Grid.Column="1" IsToggled="{Binding Driver.NotificationEnable}" HorizontalOptions="End" />
+
+                        <!-- Admin Switch -->
+                        <Label Grid.Row="2" Grid.Column="0" Text="Administrator:" Style="{StaticResource CustomLblO}" VerticalTextAlignment="Center" />
+                        <Switch Grid.Row="2" Grid.Column="1" IsToggled="{Binding Driver.IsAdmin}" HorizontalOptions="End" IsEnabled="{Binding IsAdminLogin}"/>
+
+                    </Grid>
+                </Frame>
+
+                <!-- Car Selection -->
+                <Frame Style="{StaticResource CustomFrame}">
+                    <StackLayout>
+                        <Label Text="Vyberte aktivní auto:" Style="{StaticResource CustomLblO}" />
+                        <inputs:SfComboBox x:Name="CarSelector" HorizontalOptions="CenterAndExpand"
+                                            ClearButtonIconColor="Red"
+                                           DisplayMemberPath="FullName"
+                                           DropDownBackground="{StaticResource GridBG}"
+                                            SelectedDropDownItemBackground="{StaticResource GradientGray}"
+                                           SelectedItem="{Binding Driver.Car,Mode=TwoWay}"
+                                           ItemsSource="{Binding CarsList}">
+                            <inputs:SfComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:Car">
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Image Margin="5" Source="{FontImageSource Glyph={StaticResource car}, FontFamily=FAPro, Size=20, Color={StaticResource Oranzova}}" WidthRequest="20" HeightRequest="20" />
+                                        <Label Text="{Binding FullName}" TextColor="{StaticResource Bila}" VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </inputs:SfComboBox.ItemTemplate>
+                        </inputs:SfComboBox>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Save Button -->
+        <Grid Grid.Row="2" Padding="10">
+            <Button Text="ULOŽIT ZMĚNY" 
+                    BackgroundColor="{StaticResource CustomOrange}" 
+                    TextColor="Black" 
+                    FontSize="16" 
+                    VerticalOptions="End" 
+                    CornerRadius="10" 
+                    Command="{Binding SaveDataCommand}" 
+                    HeightRequest="50" />
+        </Grid>
+    </Grid>
+</ContentPage>

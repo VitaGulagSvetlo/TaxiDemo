@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxiDC2", "TaxiDC2\TaxiDC2.csproj", "{2AF3253B-6FAE-4D4D-BBFF-CFFB79D1827C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C415F985-06B1-44FA-83C4-78C96EC8847D}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.config = NuGet.config
+		version.json = version.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AF3253B-6FAE-4D4D-BBFF-CFFB79D1827C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF3253B-6FAE-4D4D-BBFF-CFFB79D1827C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF3253B-6FAE-4D4D-BBFF-CFFB79D1827C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2AF3253B-6FAE-4D4D-BBFF-CFFB79D1827C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF3253B-6FAE-4D4D-BBFF-CFFB79D1827C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF3253B-6FAE-4D4D-BBFF-CFFB79D1827C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3B7E2E4-7330-4678-9481-7E4DF050E6F3}
+	EndGlobalSection
+EndGlobal

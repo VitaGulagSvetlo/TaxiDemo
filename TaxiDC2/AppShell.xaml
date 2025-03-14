@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TaxiDC2.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:TaxiDC2"
+    xmlns:components="clr-namespace:TaxiDC2.Components"
+    xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+    FlyoutBehavior="Flyout"
+    x:DataType="vm:AppShellViewModel"
+    Title="TAXI DC 2"
+    BackgroundColor="{Binding ServerColor}"
+    >
+
+    <ShellContent
+        Title="Sign In"
+        ContentTemplate="{DataTemplate components:LoadingPage}"
+        Route="LoadingPage" 
+        Shell.FlyoutBehavior="Disabled"
+        FlyoutItemIsVisible="False"
+        />
+
+    <ShellContent ContentTemplate = "{DataTemplate local:MainPage}" Title = "Hlavní stránka" Route ="MainPage" Shell.FlyoutBehavior="Flyout" />
+    <ShellContent ContentTemplate = "{DataTemplate local:SeznamJizd}" Title = "Seznam jízd"  Route ="SeznamJizd" />
+    <ShellContent ContentTemplate = "{DataTemplate local:NovaJizda}" Title = "Nová jízda" Route ="NovaJizda" />
+    <ShellContent ContentTemplate = "{DataTemplate local:SeznamAut}" Title = "Seznam aut"  Route ="SeznamAut" />
+    <ShellContent ContentTemplate = "{DataTemplate local:DetailAuto}" Title = "Nové auto"  Route ="DetailAuto" />
+    <ShellContent ContentTemplate = "{DataTemplate local:SeznamRidicu}" Title = "Seznam řidičů"  Route ="SeznamRidicu" />
+    <ShellContent ContentTemplate = "{DataTemplate local:DetailRidic}" Title = "Nový řidič"  Route ="DetailRidic" />
+    <ShellContent ContentTemplate = "{DataTemplate local:SeznamZakazniku}" Title = "Seznam zákazníků"  Route ="SeznamZakazniku" />
+    <ShellContent ContentTemplate = "{DataTemplate local:DetailZakaznik}" Title = "Nový zákazník"  Route ="DetailZakaznik" />
+    <ShellContent ContentTemplate = "{DataTemplate local:AboutPage}" Title = "O nás"  Route ="AboutPage" />
+
+    <Shell.FlyoutFooter>
+        <StackLayout Padding="20">
+            <Button Text="Sign Out" Command="{Binding LogoutCommand}" IsVisible="{Binding IsSigned}"/>
+        </StackLayout>
+    </Shell.FlyoutFooter>
+</Shell>

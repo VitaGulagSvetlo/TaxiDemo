@@ -1,0 +1,215 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:picker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             x:Class="TaxiDC2.NovaJizda"
+             Title="Nová jízda"
+             BackgroundColor="{StaticResource GridBG}"
+             x:DataType="vm:TripNewViewModel">
+
+<Grid BackgroundColor="{StaticResource GridBG}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <!-- Scrollovatelný obsah -->
+                <RowDefinition Height="Auto" />
+                <!-- Tlačítko uložit -->
+            </Grid.RowDefinitions>
+
+            <!-- Scrollovatelný obsah -->
+            <ScrollView Grid.Row="0">
+                <VerticalStackLayout Padding="10" Spacing="10">
+
+                    <!-- Sekce: Telefon -->
+                    <Frame Style="{StaticResource CustomFrame}">
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource phone}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                <Label Text="Telefonní číslo" Style="{StaticResource CustomLblO}"/>
+                            </HorizontalStackLayout>
+
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Entry x:Name="PhoneEntry"
+                                   Placeholder="+420123456789"
+                                   PlaceholderColor="{StaticResource NRph}"
+                                   TextColor="{StaticResource Bila}"
+                                   FontSize="18"
+                                   Text="{Binding Phone}" />
+
+                                <Button HorizontalOptions="End"
+                                    Margin="0,0,5,10"
+                                    Style="{StaticResource CallLogBtn}"
+                                    CornerRadius="5"
+                                    ImageSource="{FontImageSource Glyph={StaticResource list}, FontFamily=FAPro, Size=18, Color={StaticResource Bila}}"
+                                    Command="{Binding CallLogOpenCommand}" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Sekce: Jméno -->
+                    <Frame Style="{StaticResource CustomFrame}">
+                        <VerticalStackLayout>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <HorizontalStackLayout Grid.Column="0" Spacing="5">
+                                    <Image Source="{FontImageSource Glyph={StaticResource user}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                    <Label Text="Jméno" Style="{StaticResource CustomLblO}" />
+                                </HorizontalStackLayout>
+
+                                <inputs:SfRating Grid.Column="1"
+                                             ItemCount="5"
+                                             Value="{Binding Trip.Customer.VIP2, FallbackValue=0}"
+                                             Margin="5"
+                                             ItemSize="20">
+                                    <inputs:SfRating.RatingSettings>
+                                        <inputs:RatingSettings RatedFill="{StaticResource Oranzova}" RatedStroke="{StaticResource TP}" />
+                                    </inputs:SfRating.RatingSettings>
+                                </inputs:SfRating>
+                            </Grid>
+
+                            <Entry x:Name="NameEntry"
+                               Placeholder="Jan Petr"
+                               PlaceholderColor="{StaticResource NRph}"
+                               TextColor="{StaticResource Bila}"
+                               FontSize="18"
+                               Text="{Binding Trip.Customer.Name,FallbackValue=''}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Sekce: Začátek a Cíl -->
+                    <Frame Style="{StaticResource CustomFrame}">
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource start}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                <Label Text="Začátek" Style="{StaticResource CustomLblO}" />
+                            </HorizontalStackLayout>
+                            <Entry x:Name="FromEntry"
+                               Placeholder="Praha2"
+                               
+                               PlaceholderColor="{StaticResource NRph}"
+                               TextColor="{StaticResource TCwhite}"
+                               FontSize="18"
+                               Text="{Binding Trip.AddressBoarding}" />
+
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource finish}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                <Label Text="Cíl" Style="{StaticResource CustomLblO}" />
+                            </HorizontalStackLayout>
+                            <Entry x:Name="ToEntry"
+                               Placeholder="dvorakova"
+                               PlaceholderColor="{StaticResource NRph}"
+                               TextColor="{StaticResource Bila}"
+                               FontSize="18"
+                               Text="{Binding Trip.AddressExit}" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Sekce: Čas jízdy -->
+                    <Frame Style="{StaticResource CustomFrame}">
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource time}, FontFamily=FAPro, Size=20, Color={StaticResource CustomOrange}}" />
+                                <Label Text="Čas jízdy" Style="{StaticResource CustomLblO}" />
+                            </HorizontalStackLayout>
+
+                            <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start" AlignItems="Center">
+                                <Button Text="5" Style="{StaticResource TimeBtn}" Command="{Binding DeadlineSetCommand}" CommandParameter="5"/>
+                                <Button Text="10" Style="{StaticResource TimeBtn}" Command="{Binding DeadlineSetCommand}" CommandParameter="10"/>
+                                <Button Text="15" Style="{StaticResource TimeBtn}" Command="{Binding DeadlineSetCommand}" CommandParameter="15"/>
+                                <Button Text="20" Style="{StaticResource TimeBtn}" Command="{Binding DeadlineSetCommand}" CommandParameter="20"/>
+                                <Button Text="25" Style="{StaticResource TimeBtn}" Command="{Binding DeadlineSetCommand}" CommandParameter="25"/>
+                                <Button Text="30" Style="{StaticResource TimeBtn}" Command="{Binding DeadlineSetCommand}" CommandParameter="30"/>
+                                <Button Style="{StaticResource TimeBtn}" x:Name="TimePickerButton" Clicked="OnTimePickerButtonClicked"
+                                    CornerRadius="5" FontSize="17" 
+                                    ImageSource="{FontImageSource Glyph={StaticResource time}, FontFamily=FAPro, Size=15, Color={StaticResource Bila}}"/>
+
+                                <Frame Style="{StaticResource CustomFrame}" Margin="28,0" Padding="4">
+                                    <Label Text="{Binding CasTxt}" IsVisible="{Binding CasVisible}"  FontSize="25"></Label>
+                                </Frame>
+                            </FlexLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Sekce: Poznámka -->
+                    <Frame Style="{StaticResource CustomFrame}">
+                        <Entry x:Name="NoteEntry"
+                           Placeholder="Poznámka"
+                           PlaceholderColor="{StaticResource NRph}"
+                           TextColor="{StaticResource TCwhite}"
+                           FontSize="18"
+                           Text="{Binding Trip.Memo}" />
+                    </Frame>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Uložit změny tlačítko -->
+            <Button Text="PŘIDAT JÍZDU" Grid.Row="1"
+                    BackgroundColor="{StaticResource CustomOrangeBG}"
+                    TextColor="{StaticResource Cerna}"
+                    FontSize="16"
+                    VerticalOptions="End"
+                    CornerRadius="10"
+                    Margin="10"
+                    Command="{Binding SaveDataCommand}"
+                    HeightRequest="50"
+                    HorizontalOptions="Fill"/>
+        <VerticalStackLayout>
+            <!-- POPUP pro výběr telefonního čísla -->
+            <popup:SfPopup IsOpen="{Binding TelPickerVisible}" 
+                   HeaderTitle="Vyber telefonní číslo" 
+                   HeightRequest="500" 
+                   IsVisible="{Binding TelPickerVisible}">
+                <popup:SfPopup.ContentTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="{StaticResource Oranzova}" 
+                       BackgroundColor="{StaticResource GridBG}" 
+                       CornerRadius="5"
+                       Padding="10">
+                            <VerticalStackLayout>
+                                <picker:SfPicker 
+                            x:Name="picker"
+                            BackgroundColor="{StaticResource GridBG}"
+                            TextDisplayMode="FadeAndShrink"
+                            AcceptCommand="{Binding PhoneAcceptCommand}"
+                            DeclineCommand="{Binding PhoneCancelCommand}">
+
+                                    <picker:SfPicker.Columns>
+                                        <picker:PickerColumn ItemsSource="{Binding ListCisel2}" 
+                                                     SelectedItem="{Binding PhoneSelected, Mode=TwoWay}"/>
+                                    </picker:SfPicker.Columns>
+
+                                    <picker:SfPicker.HeaderView>
+                                        <picker:PickerHeaderView />
+                                    </picker:SfPicker.HeaderView>
+
+                                </picker:SfPicker>
+
+                                <!-- Vlastní tlačítka -->
+                                <Grid ColumnDefinitions="*,*" Padding="10">
+                                    <Button Text="Zrušit" 
+                                    BackgroundColor="Gray" 
+                                    TextColor="White"
+                                    Command="{Binding PhoneCancelCommand}" 
+                                    Grid.Column="0"/>
+
+                                    <Button Text="Vybrat" 
+                                    BackgroundColor="{StaticResource Oranzova}" 
+                                    TextColor="White"
+                                    Command="{Binding PhoneAcceptCommand}" 
+                                    Grid.Column="1"/>
+                                </Grid>
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </popup:SfPopup.ContentTemplate>
+            </popup:SfPopup>
+            <!-- POPUP pro výběr telefonního čísla -->
+        </VerticalStackLayout>
+
+
+
+    </Grid>
+</ContentPage>

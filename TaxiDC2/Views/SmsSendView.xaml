@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+    x:Class="TaxiDC2.SmsSendView"
+    x:DataType="vm:SmsViewModel"
+    Title="Odeslání SMS"
+    BackgroundColor="{StaticResource GridBG}"
+    >
+    
+    <StackLayout Spacing="10" Orientation="Vertical" Margin="20,5" >
+        <StackLayout.Resources>
+            <Style  TargetType="Button">
+                <Setter Property="Margin" Value="5,10"/>
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+            <Style  TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Oranzova}"/>
+            </Style>
+        </StackLayout.Resources>
+        <Frame Style="{StaticResource CustomFrame}">
+            <StackLayout>
+                
+                
+            <Label Text="SMS zpráva - přistavení" Margin="10" FontSize="18" FontAttributes="Bold" ></Label>
+        <Label Text="{Binding Message1}" Margin="10"  HorizontalOptions="CenterAndExpand" ></Label>
+        
+        <CollectionView x:Name="ItemsListView"
+                    ItemsSource="{Binding Buttons}"
+                    SelectionMode="None" Background="Transparent" VerticalOptions="Start">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout  HorizontalOptions="FillAndExpand">
+                    <Button Style="{StaticResource CustomSettingsBtn}"
+                            Text="{Binding .}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SmsViewModel}}, Path=SendCmd}"
+                            CommandParameter="{Binding .}" 
+                            />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+            </StackLayout>
+        </Frame>
+        <Frame Style="{StaticResource CustomFrame}">
+            <StackLayout>
+                
+           
+        <Label Text="SMS zpráva - jsme tu" Margin="10" FontSize="18" FontAttributes="Bold" ></Label>
+        <Label Text="{Binding Message2}" Margin="10"  HorizontalOptions="CenterAndExpand" ></Label>
+        <Button Style="{StaticResource CustomSettingsBtn}"
+                Text="Jsme na místě"
+                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SmsViewModel}}, Path=SendCmd}"
+                CommandParameter="0" 
+        />
+            </StackLayout>
+        </Frame>
+        <StackLayout.GestureRecognizers>
+            <SwipeGestureRecognizer Direction="Right"
+                                Swiped="OnSwipe">
+            </SwipeGestureRecognizer>
+        </StackLayout.GestureRecognizers>
+    </StackLayout>
+    
+</ContentPage>

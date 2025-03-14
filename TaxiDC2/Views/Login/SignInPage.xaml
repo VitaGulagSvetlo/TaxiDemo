@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             xmlns:converters="using:TaxiDC2.Converters"
+             x:DataType="vm:SignInViewModel"
+             x:Class="TaxiDC2.Components.Login.SignInPage"
+             Title="Login"
+             BindingContext="vm"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource GridBG}"
+             >
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <Style x:Key="Link" TargetType="Label" >
+                <Setter Property="TextColor" Value="{StaticResource C14Color}"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
+                <Setter Property="FontAttributes" Value="Italic"></Setter>
+                <Setter Property="Margin" Value="5"></Setter>
+                <Setter Property="TextDecorations" Value="Underline" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout>
+
+        <Image Source="taxi.png" WidthRequest="200" HeightRequest="300"  VerticalOptions="Center"/>
+        <Label 
+            Text="Vítejte v TAXI DC"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            FontSize="20"
+            FontAttributes="Bold"/>
+        <Label 
+            Text="Prosíme, přihlašte se"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            FontSize="14"
+            TextColor="{StaticResource Oranzova}"/>
+        <Frame Margin="20" Style="{StaticResource CustomFrame}" BackgroundColor="{StaticResource GridBG}">
+            <VerticalStackLayout >
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Image Source="{FontImageSource Glyph={StaticResource user}, FontFamily=FAPro, Size=24, Color={StaticResource Oranzova}}" WidthRequest="20"/>
+                    <Entry HorizontalOptions="FillAndExpand" Placeholder="Přihlašovací email" Text="{Binding Email,Mode=TwoWay}" WidthRequest="200"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Image Source="{FontImageSource Glyph={StaticResource phone}, FontFamily=FAPro, Size=24, Color={StaticResource Oranzova}}" WidthRequest="20"/>
+                    <Entry Placeholder="Přihlašovací heslo" Text="{Binding Password,Mode=TwoWay}" IsPassword="True" WidthRequest="200"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+        <Button Command="{Binding SignInCommand}" Style="{StaticResource CustomSettingsBtn}" Text="Přihlásit se" IsEnabled="{Binding ServerOK}"></Button>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center"></ActivityIndicator>
+
+        <Label Style="{StaticResource Link}" Text="Nemáte účet ? Registruje se zde.">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SignUpCommand}"></TapGestureRecognizer>
+            </Label.GestureRecognizers>
+        </Label>
+        <Label Text="Server OK" IsVisible="{Binding ServerOK}" TextColor="Green" HorizontalTextAlignment="Center" Margin="5,10"/>
+        <Label Text="Server není dostupný !" IsVisible="{Binding ServerOK, Converter={StaticResource InverseBoolConverter}}" TextColor="Red" HorizontalTextAlignment="Center"  Margin="5,10"/>
+        <Label Text="{Binding Message}" IsVisible="{Binding IsMessageVisible}" TextColor="Red" HorizontalTextAlignment="Center"  Margin="5,10"/>
+        <Label Style="{StaticResource Link}" Text="Přejít na nastavení serveru." IsVisible="{Binding ServerOK, Converter={StaticResource InverseBoolConverter}}">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SettingsCommand}" ></TapGestureRecognizer>
+            </Label.GestureRecognizers>
+        </Label>
+        <!--<Button Command="{Binding SignInGoogleCommand}" HorizontalOptions="Center" Text="G"></Button>-->
+
+    </VerticalStackLayout>
+</ContentPage>

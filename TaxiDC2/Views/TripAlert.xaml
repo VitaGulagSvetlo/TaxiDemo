@@ -1,0 +1,117 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaxiDC2.TripAlert"
+              xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             BackgroundColor="{StaticResource GridBG}"
+             xmlns:vm="clr-namespace:TaxiDC2.ViewModels"
+             x:DataType="vm:TripDetailViewModel"
+
+             Shell.FlyoutBehavior="Disabled"
+             Shell.NavBarIsVisible="False"
+
+             >
+
+    <Grid BackgroundColor="{StaticResource GridBG}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- HORNÍ PRUH -->
+        <Grid Grid.Row="0" Padding="10">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                    <GradientStop Color="{StaticResource GradientRed}" Offset="0.0" />
+                    <GradientStop Color="{StaticResource GradientGray}" Offset="1.1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+                <Image Source="{FontImageSource Glyph={StaticResource alert}, FontFamily=FAPro, Size=25, Color={StaticResource Bila}}" />
+                <Label HorizontalOptions="Center" Text="Byla vám předána jízda" FontSize="20" FontAttributes="Bold" 
+                       TextColor="{Binding StateTextColor}" VerticalOptions="Center" />
+                <Image Source="{FontImageSource Glyph={StaticResource alert}, FontFamily=FAPro, Size=25, Color={StaticResource Bila}}" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- HLAVNÍ OBSAH (SCROLL) -->
+        <ScrollView Grid.Row="1" Padding="0" VerticalOptions="Start">
+            <VerticalStackLayout Spacing="10" Padding="10">
+                <Frame Style="{StaticResource CustomFrame}">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Nadpis -->
+                        <Label Grid.Row="0" Grid.Column="0" Text="Zákazník:" Style="{StaticResource CustomLblO}" />
+
+                        <!-- Obsah pod nadpisem -->
+                        <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="2" >
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource phone}, FontFamily=FAPro, Size=20, Color={StaticResource Oranzova}}" />
+                                <Label Text="{Binding Trip.Customer.PhoneNumber,FallbackValue=''}" FontSize="18" TextColor="{StaticResource Bila}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource user}, FontFamily=FAPro, Size=20, Color={StaticResource Oranzova}}" />
+                                <Label Text="{Binding Trip.Customer.Name,FallbackValue=''}" FontSize="18" TextColor="{StaticResource Bila}" />
+                            </HorizontalStackLayout>
+                            <inputs:SfRating ItemCount="5" Value="{Binding Trip.Customer.VIP2,FallbackValue=0}" Margin="5" ItemSize="15" IsReadOnly="True">
+                                <inputs:SfRating.RatingSettings>
+                                    <inputs:RatingSettings RatedFill="{StaticResource Oranzova}" RatedStroke="{StaticResource TP}" />
+                                </inputs:SfRating.RatingSettings>
+                            </inputs:SfRating>
+                        </VerticalStackLayout>
+
+
+
+                    </Grid>
+                </Frame>
+
+                <Frame Style="{StaticResource CustomFrame}">
+                    <StackLayout Spacing="5">
+                        <StackLayout Spacing="10">
+                            <Label Text="Start:" Style="{StaticResource CustomLblO}"  />
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource start}, FontFamily=FAPro, Size=20, Color={StaticResource Oranzova}}" />
+                                <Label Text="{Binding Trip.AddressBoarding}" FontSize="18" TextColor="{StaticResource Bila}" />
+                            </HorizontalStackLayout>
+                        </StackLayout>
+
+                        <StackLayout Spacing="10">
+                            <Label Text="Cíl:" Style="{StaticResource CustomLblO}" />
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource finish}, FontFamily=FAPro, Size=20, Color={StaticResource Oranzova}}" />
+                                <Label Text="{Binding Trip.AddressExit}" FontSize="18" TextColor="{StaticResource Bila}" />
+                            </HorizontalStackLayout>
+                        </StackLayout>
+
+                        <StackLayout Spacing="10">
+                            <Label Text="Čas nástupu:" Style="{StaticResource CustomLblO}" />
+                            <HorizontalStackLayout Spacing="5">
+                                <Image Source="{FontImageSource Glyph={StaticResource time}, FontFamily=FAPro, Size=20, Color={StaticResource Oranzova}}" />
+                                <Label Text="{Binding Trip.BoardingTime, StringFormat='{0:yyyy-MM-dd HH:mm}'}" FontSize="18" TextColor="{StaticResource Bila}" />
+                            </HorizontalStackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- SEKCE S TLAČÍTKY -->
+        <Grid Grid.Row="2" Padding="10">
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                <Button Style="{StaticResource RideCompleteBtn}" Text="Převzít" Command="{Binding AccCommand}" />
+                <Button Style="{StaticResource RideCancelBtn}" Text="Odmítnout" Command="{Binding RejCommand}" />
+            </HorizontalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>
