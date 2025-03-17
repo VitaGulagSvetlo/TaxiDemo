@@ -17,6 +17,8 @@ namespace TaxiDC2
 		{
 			base.OnCreate(savedInstanceState);
 
+#if !DEMO
+			
 			// Inicializace FirebaseApp
 			var opt = new FirebaseOptions.Builder();
 
@@ -25,18 +27,10 @@ namespace TaxiDC2
 			opt.SetProjectId(StaticConfig.FirebaseNotifyProjectId);
 			opt.SetStorageBucket(StaticConfig.FirebaseNotifyStorageBucket);
 			opt.SetDatabaseUrl(StaticConfig.FirebaseNotifyDatabaseUrl);
+
+			FirebaseApp.InitializeApp(this, opt.Build());
+			FirebasePushNotificationManager.Initialize(this, false);
 			
-		FirebaseApp.InitializeApp(this, opt.Build());
-
-		// Nyní můžete bezpečně inicializovat push notifikace
-#if DEBUG
-		FirebasePushNotificationManager.Initialize(this, true);
-#else
-        FirebasePushNotificationManager.Initialize(this, false);
-#endif
-
-
-
 			//Handle notification when app is closed here
 			CrossFirebasePushNotification.Current.OnNotificationReceived += (s, p) =>
 			{
@@ -58,6 +52,7 @@ namespace TaxiDC2
 				}
 
 			};
+#endif
 
 		}
 	}

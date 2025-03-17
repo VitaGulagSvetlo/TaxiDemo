@@ -25,10 +25,14 @@ public partial class TripListViewModel : BaseViewModel, IDisposable
 
 		timer = new Timer(OnTimer, null, TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(15));
 
+#if !DEMO
 		//New trip
 		MessagingCenter.Subscribe<INotificationMessage>(this, "MES", (sender) => { Task.Run(async () => await OnMessage(sender)).Wait(); });
+#endif
+
 	}
 
+#if !DEMO
 	/// <summary>
 	/// Prijeti PUSH notifikace a refresh dat
 	///
@@ -58,11 +62,15 @@ public partial class TripListViewModel : BaseViewModel, IDisposable
 			}
 		}
 	}
+#endif
 
 	public void Dispose()
 	{
+
+#if !DEMO
 		//unsubscribe Messages
 		MessagingCenter.Unsubscribe<INotificationMessage>(this, "MES");
+#endif
 		//clear resources
 		timer?.Dispose();
 	}
@@ -135,10 +143,10 @@ public partial class TripListViewModel : BaseViewModel, IDisposable
 	[RelayCommand]
 	public async Task ProfileOpen()
 	{
-		//todo : jen ladeni  -- testovaci
-		await Shell.Current.GoToAsync($"{nameof(TripAlert)}?id={Items.First().Data.IdTrip}&origin=alert");
-		return;
-		//todo : jen ladeni  -- testovaci
+		////todo : jen ladeni  -- testovaci
+		//await Shell.Current.GoToAsync($"{nameof(TripAlert)}?id={Items.First().Data.IdTrip}&origin=alert");
+		//return;
+		////todo : jen ladeni  -- testovaci
 
 		if (_bs.IsLogged)
 			await Shell.Current.GoToAsync($"{nameof(DetailRidic)}?id={_bs.ActiveUserId}");

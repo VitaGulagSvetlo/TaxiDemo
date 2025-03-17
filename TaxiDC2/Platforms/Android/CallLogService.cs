@@ -19,7 +19,8 @@ public class CallLogService : ICallLogService
 				CallLog.Calls.Number,
 				CallLog.Calls.Type,
 				CallLog.Calls.Date,
-				CallLog.Calls.Duration
+				CallLog.Calls.Duration,
+				CallLog.Calls.CachedName
 			};
 
 
@@ -39,13 +40,15 @@ public class CallLogService : ICallLogService
 							var type = cursor.GetInt(cursor.GetColumnIndex(projection[1]));
 							var dateLong = cursor.GetLong(cursor.GetColumnIndex(projection[2]));
 							var duration = cursor.GetInt(cursor.GetColumnIndex(projection[3]));
+							var callerName = cursor.GetString(cursor.GetColumnIndex(CallLog.Calls.CachedName));
 
 							callLogs.Add(new CallLogEntry
 							{
 								PhoneNumber = number,
-								CallType = type,
+								CallType = (AndroidCallType)type,
 								CallDate = DateTimeOffset.FromUnixTimeMilliseconds(dateLong).DateTime,
-								Duration = duration
+								Duration = duration,
+								CallerName = callerName
 							});
 							if (c++>100) break;
 						} while (cursor.MoveToNext());
@@ -85,4 +88,5 @@ public class CallLogService : ICallLogService
 
 		return status;
 	}
+
 }

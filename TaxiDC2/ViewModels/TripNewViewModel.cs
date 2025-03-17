@@ -101,6 +101,18 @@ namespace TaxiDC2.ViewModels
 		[RelayCommand]
 		public async Task SaveData()
 		{
+			if (string.IsNullOrWhiteSpace(Phone))
+			{
+				await Shell.Current.DisplayAlert("Povinná položka", "Telefonní číslo musí být vyplněno !", "OK");
+				return;
+			}
+
+			if (VypoctiCas() == null)
+			{
+				await Shell.Current.DisplayAlert("Povinná položka", "Čas musí být vyplněn !", "OK");
+				return;
+			}
+
 			IsBusy = true;
 			try
 			{
@@ -111,6 +123,7 @@ namespace TaxiDC2.ViewModels
 					Trip.Customer.LastAddressBoarding = Trip.AddressBoarding;
 					Trip.Customer.LastAddressExit = Trip.AddressExit;
 				}
+
 
 				Trip drv = new()
 				{
@@ -157,13 +170,44 @@ namespace TaxiDC2.ViewModels
 		}
 
 		/// <summary>
+		/// vypocita cas startu jizdy
+		/// bud podle minut do startu nebo vybraneho specifikovaneho casu
+		/// </summary>
+		/// <returns></returns>
+		private DateTime? VypoctiCas()
+		{
+			// nevyplnen cas nastupu a neni nastavena deadLine
+			if (CasNastupu==null && DeadLine<1)
+				return null;
+
+			if (CasNastupu == null && DeadLine>0)
+				return DateTime.Now.AddMinutes(DeadLine);
+
+
+			DateTime den = DateTime.Now.Date;
+
+			// nocni jizda na zitra po pulnoci
+			if (CasNastupu < DateTime.Now.TimeOfDay)
+				den = den.AddDays(1);
+
+			return den + CasNastupu;
+		}
+
+		/// <summary>
 		/// Akceptuje telefoni cislo z Pickeru
 		/// </summary>
 		/// <returns></returns>
 		[RelayCommand]
 		public async Task PhoneAccept()
 		{
-			await SetContactFromPhone(PhoneSelected);
+			if (string.IsNullOrWhiteSpace(PhoneSelected) || !PhoneSelected.Contains('-'))
+				return;
+
+			var ph = PhoneSelected.Split('-',StringSplitOptions.TrimEntries | StringSplitOptions.TrimEntries);
+			if (ph.Length>1)
+			await SetContactFromPhone(ph[0], ph[1]);
+			else
+				await SetContactFromPhone(ph[0]);
 			TelPickerVisible = false;
 		}
 
@@ -176,26 +220,7 @@ namespace TaxiDC2.ViewModels
 		{
 			TelPickerVisible = false;
 		}
-
-		/// <summary>
-		/// vypocita cas startu jizdy
-		/// bud podle minut do startu nebo vybraneho specifikovaneho casu
-		/// </summary>
-		/// <returns></returns>
-		private DateTime? VypoctiCas()
-		{
-			if (CasNastupu == null)
-				return DateTime.Now.AddMinutes(DeadLine);
-
-
-			DateTime den = DateTime.Now.Date;
-
-			if (CasNastupu < DateTime.Now.TimeOfDay)
-				den = den.AddDays(1);
-
-			return den + CasNastupu;
-		}
-
+		
 		/// <summary>
 		/// Aktivuje picker pro posledni telefoni cisla
 		/// </summary>
@@ -210,8 +235,8 @@ namespace TaxiDC2.ViewModels
 
 				ListCisel.Clear();
 
-				foreach (CallListItem item in ListCisel)
-					ListCisel.Add(new CallListItem() { Cislo = item.Cislo, Jmeno = item.Jmeno });
+				foreach (var item in log.OrderByDescending(o=>o.CallDate))
+					ListCisel.Add(new CallListItem() { Cislo = item.PhoneNumber, Jmeno = item.CallerName, Missed = item.CallType!= AndroidCallType.Incoming});
 
 #if DEBUG
 				ListCisel.Add(new CallListItem() { Cislo = "111 111 111", Jmeno = "Clovek 1" });
@@ -228,7 +253,7 @@ namespace TaxiDC2.ViewModels
 			}
 			finally
 			{
-				PhoneSelected = ListCisel.First().Cislo;
+				PhoneSelected = ListCisel.First().FullText;
 				TelPickerVisible = true;
 				IsBusy = false;
 			}
@@ -244,7 +269,9 @@ namespace TaxiDC2.ViewModels
 			public string Cislo { get; set; }
 			public string Jmeno { get; set; }
 			public bool Missed { get; set; }
+			public DateTime Time { get; set; }
 			public Color CallColor => Missed ? Color.Parse("DarkRed") : Color.FromHex("#ffbd00");
+			public string FullText => $"{Cislo}-{Jmeno} ";
 		}
 
 		/// <summary>
@@ -263,7 +290,6 @@ namespace TaxiDC2.ViewModels
 				{
 					Trip.Customer = res;
 					Phone = res.PhoneNumber;
-					PhoneSelected = Phone;
 				}
 				else
 				{
@@ -274,7 +300,6 @@ namespace TaxiDC2.ViewModels
 						PhoneNumber = cislo
 					};
 					Phone = cislo;
-					PhoneSelected = Phone;
 				}
 			}
 			catch (Exception es)
@@ -291,7 +316,7 @@ namespace TaxiDC2.ViewModels
 
 		public bool CasVisible => CasNastupu != null || DeadLine > 0;
 
-		public string[] ListCisel2 => ListCisel.Select(s => s.Cislo).ToArray();
+		public string[] ListCisel2 => ListCisel.Select(s => s.FullText).Distinct().ToArray();
 
 		public string PhoneSelected { get; set; }
 

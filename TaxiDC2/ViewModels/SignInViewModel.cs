@@ -12,8 +12,13 @@ namespace TaxiDC2.ViewModels
 		private readonly FirebaseAuthClient _authClient;
 		private readonly IBussinessState _bs;
 
-		[ObservableProperty] private string _email = "peno@penodc.com";
-		[ObservableProperty] private string _password = "penox22";
+#if DEMO
+		[ObservableProperty] private string _email = "test@example.com";
+		[ObservableProperty] private string _password = "testx22";
+#else
+		[ObservableProperty] private string _email = "test@example.com";
+		[ObservableProperty] private string _password = "testx22";
+#endif
 
 		public bool ServerOK
 		{

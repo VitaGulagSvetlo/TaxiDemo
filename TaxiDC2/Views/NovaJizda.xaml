@@ -184,6 +184,10 @@
                                         <picker:PickerHeaderView />
                                     </picker:SfPicker.HeaderView>
 
+                                    <picker:SfPicker.SelectedTextStyle>
+                                        <picker:PickerTextStyle FontSize="16" FontAttributes="Bold" TextColor="White">
+                                        </picker:PickerTextStyle>
+                                    </picker:SfPicker.SelectedTextStyle>
                                 </picker:SfPicker>
 
                                 <!-- Vlastní tlačítka -->
