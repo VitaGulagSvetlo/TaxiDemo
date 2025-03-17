@@ -69,7 +69,7 @@
                                     <Label Grid.Row="2" Grid.Column="1" Text="{Binding PhoneNumber}" Style="{StaticResource FS-16}" FontAttributes="Bold" TextColor="{StaticResource TCwhite}" VerticalTextAlignment="Center" />
 
                                     <Label Grid.Row="3" Grid.Column="0" Text="Akt. vozidlo:" Style="{StaticResource FS-14}" FontAttributes="Bold" TextColor="{StaticResource CustomOrangeText}" VerticalTextAlignment="Center" />
-                                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding CarName,FallbackValue=''}" Style="{StaticResource FS-12}" FontAttributes="Bold" TextColor="{StaticResource Bila}" VerticalOptions="Center"/>
+                                    <Label Grid.Row="3" MaxLines="1" LineBreakMode="TailTruncation" Grid.Column="1" Text="{Binding CarName,FallbackValue=''}" Style="{StaticResource FS-12}" FontAttributes="Bold" TextColor="{StaticResource Bila}" VerticalOptions="Center"/>
 
                                     <!-- Icons -->
                                     <StackLayout Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" Orientation="Vertical" Spacing="10" VerticalOptions="Center" HorizontalOptions="End">
