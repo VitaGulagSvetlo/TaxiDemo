@@ -44,6 +44,7 @@ namespace TaxiDC2
                 {
                     return new VerticalStackLayout
                     {
+                        
                         Spacing = 10,
                         Children =
                 {
